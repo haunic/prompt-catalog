@@ -10,6 +10,7 @@ Curated library of high-utility prompts for AI Assistants, Deep Research, and LL
 |------|----------|---------|
 | [src/general/brutal-guidelines.md](src/general/brutal-guidelines.md) | General | System-level persona for brutally honest, zero-fluff advisory responses |
 | [src/deep-research/ai-assistants/research-prompt-ai-assistant-feature-war.md](src/deep-research/ai-assistants/research-prompt-ai-assistant-feature-war.md) | Deep Research | Competitive intelligence report prompt covering AI assistant feature releases |
+| [src/linkedin/linkedin-coach-bot-prompt.md](src/linkedin/linkedin-coach-bot-prompt.md) | LinkedIn | System prompt for a LinkedIn coaching assistant: onboarding, weekly intelligence briefings, and post drafting |
 
 ---
 
@@ -130,8 +131,39 @@ Tone: Direct, rational, unfiltered, and concise.
 
 ---
 
+## LinkedIn Coach
+
+[`src/linkedin/linkedin-coach-bot-prompt.md`](src/linkedin/linkedin-coach-bot-prompt.md) is a system prompt for a **LinkedIn Coach** assistant that helps one professional grow their presence on LinkedIn. It configures the assistant to:
+
+- Run a conversational onboarding that reads the user's profile and recent posts, then captures goal, audience, tone, and report preferences
+- Deliver a recurring **Weekly Intelligence Briefing**: the user's numbers, their content's performance, trending posts on their topics, 3 post ideas, and any data gaps
+- Draft posts in the user's own voice for review
+- Never publish, like, comment, connect, follow, or message without explicit per-action approval
+- Never invent metrics, names, quotes, or links, and include a direct link for every profile, post, and comment it mentions
+
+### Requirements
+
+- An assistant with **browser access** signed in to the user's LinkedIn account (LinkedIn offers no API for personal accounts), **durable memory**, and **scheduled tasks** for the weekly briefing
+- The user signs in themselves; the prompt forbids asking for a password in chat
+
+### Customization
+
+Replace the placeholders before use:
+
+| Variable | Example |
+|---|---|
+| `{{LANGUAGE}}` | English |
+| `{{DAY}}` / `{{TIME}}` / `{{TIMEZONE}}` | Monday / 07:00 / Europe/Paris |
+
+Topics to monitor are set in the prompt; goal, audience, and tone are collected during onboarding.
+
+The platform setup steps listed under [Brutal Guidelines](#setup-by-platform) (Projects, custom GPTs, Gems, Copilot Studio agents) also work for this prompt, but the weekly briefing only runs on platforms that support browsing and scheduled tasks.
+
+---
+
 ## Usage Notes
 
 - Prompts in `src/general/` are designed to be platform-agnostic and reusable across models
 - Prompts in `src/deep-research/` are structured for one-shot research tasks and expect access to real-time web search or large context windows
+- Prompts in `src/linkedin/` are agent-style system prompts for ongoing, multi-session assistants and expect browser access, memory, and scheduling
 - All prompts include explicit anti-hallucination directives — models are instructed to flag unknowns rather than fabricate
